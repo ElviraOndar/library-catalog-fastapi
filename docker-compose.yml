@@ -1,0 +1,21 @@
+# Поле "version" больше не нужно: современный Docker Compose его игнорирует.
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: library_catalog_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: library_catalog
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d library_catalog"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  postgres_data:
